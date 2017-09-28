@@ -1,8 +1,5 @@
 package com.wwe.madina.wweplayer.activities;
 
-import android.content.Intent;
-import android.net.Uri;
-import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -10,15 +7,13 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.View;
 
-import com.google.android.exoplayer2.ui.SimpleExoPlayerView;
+import com.google.android.exoplayer2.util.Util;
 import com.wwe.madina.wweplayer.R;
 import com.wwe.madina.wweplayer.adapters.VideosAdapter;
 import com.wwe.madina.wweplayer.network.VideoApiService;
 import com.wwe.madina.wweplayer.models.Video;
 import com.wwe.madina.wweplayer.models.VideoListResponse;
-import com.wwe.madina.wweplayer.utils.ExoPlayerVideoHandler;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -89,17 +84,28 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowTitleEnabled(false);
     }
 
-    //    @Override
-//    public void onResume() {
-//        super.onResume();
-//        exoPlayerVideoHandler.goToForeground();
-//        exoPlayerVideoHandler2.goToForeground();
-//    }
-//
-//    @Override
-//    public void onPause() {
-//        super.onPause();
-//        exoPlayerVideoHandler.goToBackground();
-//        exoPlayerVideoHandler2.goToBackground();
-//    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (videosAdapter != null) {
+            videosAdapter.notifyDataSetChanged();
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (Util.SDK_INT <= 23) {
+            videosAdapter.releasePlayers();
+        }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (Util.SDK_INT > 23) {
+            videosAdapter.notifyDataSetChanged();
+        }
+    }
 }

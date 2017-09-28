@@ -57,10 +57,4 @@ public class FullScreenVideoActivity extends AppCompatActivity {
             exoPlayerVideoHandler.goToBackground();
         }
     }
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        finish();
-    }
 }
