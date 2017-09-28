@@ -1,5 +1,6 @@
 package com.wwe.madina.wweplayer.adapters;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -9,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -30,7 +32,7 @@ import java.util.List;
 
 public class VideosAdapter extends RecyclerView.Adapter<VideosAdapter.VideoViewHolder> {
 
-    private static final String HTTP_PREFIX = "http:";
+    public static final String HTTP_PREFIX = "http:";
     private List<Video> videoList;
     private Context context;
 
@@ -46,9 +48,19 @@ public class VideosAdapter extends RecyclerView.Adapter<VideosAdapter.VideoViewH
     }
 
     @Override
-    public void onBindViewHolder(VideoViewHolder holder, int position) {
+    public void onBindViewHolder(final VideoViewHolder holder, int position) {
+        final Video video = videoList.get(position);
+        holder.container.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (video.getPlaybackUrl() != null) {
+                    Intent intent = new Intent(context, FullScreenVideoActivity.class);
+                    intent.putExtra("fullscreenVideoUrl", video.getPlaybackUrl());
+                    context.startActivity(intent);
+                }
+            }
+        });
     }
-
     @Override
     public int getItemCount() {
         return videoList.size();
@@ -75,6 +87,7 @@ public class VideosAdapter extends RecyclerView.Adapter<VideosAdapter.VideoViewH
     }
 
     public class VideoViewHolder extends RecyclerView.ViewHolder {
+        private LinearLayout container;
         private ImageView thumbnail;
         private TextView title;
         private TextView duration;
@@ -85,6 +98,7 @@ public class VideosAdapter extends RecyclerView.Adapter<VideosAdapter.VideoViewH
             super(view);
             title = view.findViewById(R.id.description);
             playerView = view.findViewById(R.id.video_view);
+            container = view.findViewById(R.id.viewholder_container);
         }
     }
 }

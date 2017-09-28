@@ -5,11 +5,11 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
+    android:background="?android:attr/selectableItemBackground"
     android:paddingBottom="10dp"
     android:paddingLeft="26dp"
     android:paddingRight="26dp"
     android:paddingTop="10dp">
-
 
     <TextView
         android:id="@+id/description"

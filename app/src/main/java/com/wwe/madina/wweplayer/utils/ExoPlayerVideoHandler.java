@@ -29,7 +29,6 @@ public class ExoPlayerVideoHandler {
     private SimpleExoPlayer player;
     private long playbackPosition;
     private int currentWindow;
-    private boolean fromStart;
 
     public ExoPlayerVideoHandler(Context context, Uri uri, SimpleExoPlayerView playerView) {
         if (context != null && uri != null && playerView != null) {
@@ -37,11 +36,8 @@ public class ExoPlayerVideoHandler {
             BandwidthMeter bandwidthMeter = new DefaultBandwidthMeter();
             DataSource.Factory mediaDataSourceFactory = new DefaultDataSourceFactory(context, Util.getUserAgent(context, "mediaPlayerSample"), (TransferListener<? super DataSource>) bandwidthMeter);
             TrackSelection.Factory videoTrackSelectionFactory = new AdaptiveTrackSelection.Factory(bandwidthMeter);
-
             DefaultTrackSelector trackSelector = new DefaultTrackSelector(videoTrackSelectionFactory);
-
             player = ExoPlayerFactory.newSimpleInstance(context, trackSelector);
-
             playerView.setPlayer(player);
             player.setVolume(0f);
             MediaSource mediaSource = new HlsMediaSource(uri, mediaDataSourceFactory, null, null);
@@ -50,15 +46,13 @@ public class ExoPlayerVideoHandler {
         }
     }
 
-//    public void seekTo(int currentWindow, long playbackPosition) {
-//        player.seekTo(currentWindow, playbackPosition);
-//    }
-
+    public void setVolumeOn(){
+        player.setVolume(100f);
+    }
     public void goToBackground() {
         if (player != null) {
             playbackPosition = player.getCurrentPosition();
             currentWindow = player.getCurrentWindowIndex();
-            player.setPlayWhenReady(false);
             player.stop();
             player.release();
         }
