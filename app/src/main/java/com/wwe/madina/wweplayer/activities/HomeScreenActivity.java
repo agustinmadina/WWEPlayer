@@ -24,9 +24,9 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class MainActivity extends AppCompatActivity {
+public class HomeScreenActivity extends AppCompatActivity {
 
-    private static final String TAG = MainActivity.class.getSimpleName();
+    private static final String TAG = HomeScreenActivity.class.getSimpleName();
     private static Retrofit retrofit = null;
 
     private List<Video> videosList = new ArrayList<>();
@@ -37,9 +37,50 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_home_screen);
         setupToolbar();
         getVideoList();
+    }
+
+    private void populateRecyclerView() {
+        recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+        videosAdapter = new VideosAdapter(videosList);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.setAdapter(videosAdapter);
+        videosAdapter.notifyDataSetChanged();
+        Log.d(TAG, "Number of videos received: " + videosList.size());
+    }
+
+    private void setupToolbar() {
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (videosAdapter != null) {
+            videosAdapter.notifyDataSetChanged();
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (Util.SDK_INT <= 23) {
+            videosAdapter.releasePlayers();
+        }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (Util.SDK_INT > 23) {
+            videosAdapter.notifyDataSetChanged();
+        }
     }
 
     private void getVideoList() {
@@ -65,47 +106,5 @@ public class MainActivity extends AppCompatActivity {
                 Log.e(TAG, t.toString());
             }
         });
-    }
-
-    private void populateRecyclerView() {
-        recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
-        videosAdapter = new VideosAdapter(videosList);
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.setAdapter(videosAdapter);
-        videosAdapter.notifyDataSetChanged();
-        Log.d(TAG, "Number of videos received: " + videosList.size());
-    }
-
-    private void setupToolbar() {
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
-    }
-
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if (videosAdapter != null) {
-            videosAdapter.notifyDataSetChanged();
-        }
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        if (Util.SDK_INT <= 23) {
-            videosAdapter.releasePlayers();
-        }
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        if (Util.SDK_INT > 23) {
-            videosAdapter.notifyDataSetChanged();
-        }
     }
 }
