@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/viewholder_container"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="?android:attr/selectableItemBackground"
     android:clickable="true"
@@ -24,6 +24,9 @@
         android:id="@+id/video_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:minHeight="180dp"
+        app:resize_mode="fixed_height"
+        app:surface_type="texture_view"
         app:use_controller="false" />
 
 </LinearLayout>

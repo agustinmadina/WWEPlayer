@@ -32,13 +32,9 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = MainActivity.class.getSimpleName();
     private static Retrofit retrofit = null;
 
-//    private SimpleExoPlayerView playerView;
-//    private SimpleExoPlayerView playerView2;
     private List<Video> videosList = new ArrayList<>();
     private RecyclerView recyclerView;
     private VideosAdapter videosAdapter;
-//    ExoPlayerVideoHandler exoPlayerVideoHandler;
-//    ExoPlayerVideoHandler exoPlayerVideoHandler2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

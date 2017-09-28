@@ -47,25 +47,6 @@ public class VideosAdapter extends RecyclerView.Adapter<VideosAdapter.VideoViewH
 
     @Override
     public void onBindViewHolder(VideoViewHolder holder, int position) {
-        Video video = videoList.get(position);
-        holder.title.setText(video.getTitle() != null ? video.getTitle() : context.getString(R.string.title_not_available));
-        if (video.getPlaybackUrl() != null) {
-            String videoUrl = HTTP_PREFIX + video.getPlaybackUrl();
-            ExoPlayerVideoHandler exoPlayerVideoHandler = new ExoPlayerVideoHandler(context, Uri.parse(videoUrl), holder.playerView);
-        } else {
-            holder.title.setText(context.getString(R.string.video_not_available));
-        }
-//        if (video.getThumb() != null) {
-//            String thumbUrl = VideoApiService.BASE_URL + video.getThumb().replaceAll("\\\\", "");;
-//            Picasso.with(context).load(thumbUrl).into(holder.thumbnail);
-//        }
-//        holder.thumbnail.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent intent = new Intent(context, FullScreenVideoActivity.class);
-//                context.startActivity(intent);
-//            }
-//        });
     }
 
     @Override
@@ -74,10 +55,23 @@ public class VideosAdapter extends RecyclerView.Adapter<VideosAdapter.VideoViewH
     }
 
     @Override
-    public void onViewRecycled(VideoViewHolder holder) {
-        super.onViewRecycled(holder);
+    public void onViewAttachedToWindow(VideoViewHolder holder) {
+        super.onViewAttachedToWindow(holder);
+        Video video = videoList.get(holder.getAdapterPosition());
+        holder.title.setText(video.getTitle() != null ? video.getTitle() : context.getString(R.string.title_not_available));
+        if (video.getPlaybackUrl() != null) {
+            String videoUrl = HTTP_PREFIX + video.getPlaybackUrl();
+            ExoPlayerVideoHandler exoPlayerVideoHandler = new ExoPlayerVideoHandler(context, Uri.parse(videoUrl), holder.playerView);
+        } else {
+            holder.title.setText(context.getString(R.string.video_not_available));
+        }
+    }
+
+    @Override
+    public void onViewDetachedFromWindow(VideoViewHolder holder) {
         holder.playerView.getPlayer().stop();
         holder.playerView.getPlayer().release();
+        super.onViewDetachedFromWindow(holder);
     }
 
     public class VideoViewHolder extends RecyclerView.ViewHolder {
