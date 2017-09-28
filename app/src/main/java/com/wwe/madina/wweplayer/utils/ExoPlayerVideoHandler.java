@@ -19,60 +19,54 @@ import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.google.android.exoplayer2.upstream.TransferListener;
 import com.google.android.exoplayer2.util.Util;
 
-import java.util.List;
 
 /**
  * Created by Madina on 27/9/2017.
  */
 
 public class ExoPlayerVideoHandler {
-    private static ExoPlayerVideoHandler instance;
 
     private SimpleExoPlayer player;
-    private Uri playerUri;
-    private DefaultTrackSelector trackSelector;
-    private boolean shouldAutoPlay;
-    private BandwidthMeter bandwidthMeter;
     private long playbackPosition;
     private int currentWindow;
+    private boolean fromStart;
 
     public ExoPlayerVideoHandler(Context context, Uri uri, SimpleExoPlayerView playerView) {
         if (context != null && uri != null && playerView != null) {
-            playerUri = uri;
             playerView.requestFocus();
-            shouldAutoPlay = true;
-            bandwidthMeter = new DefaultBandwidthMeter();
+            BandwidthMeter bandwidthMeter = new DefaultBandwidthMeter();
             DataSource.Factory mediaDataSourceFactory = new DefaultDataSourceFactory(context, Util.getUserAgent(context, "mediaPlayerSample"), (TransferListener<? super DataSource>) bandwidthMeter);
             TrackSelection.Factory videoTrackSelectionFactory = new AdaptiveTrackSelection.Factory(bandwidthMeter);
 
-            trackSelector = new DefaultTrackSelector(videoTrackSelectionFactory);
+            DefaultTrackSelector trackSelector = new DefaultTrackSelector(videoTrackSelectionFactory);
 
             player = ExoPlayerFactory.newSimpleInstance(context, trackSelector);
 
             playerView.setPlayer(player);
-//                player.setVolume(0f);
+            player.setVolume(0f);
             MediaSource mediaSource = new HlsMediaSource(uri, mediaDataSourceFactory, null, null);
             player.prepare(mediaSource);
+            player.setPlayWhenReady(true);
         }
-//        player.clearVideoSurface();
-//        player.setVideoSurfaceView(
-//                (SurfaceView) playerView.getVideoSurfaceView());
-//        player.seekTo(player.getCurrentPosition() + 1);
-//        playerView.setPlayer(player);
     }
+
+//    public void seekTo(int currentWindow, long playbackPosition) {
+//        player.seekTo(currentWindow, playbackPosition);
+//    }
 
     public void goToBackground() {
         if (player != null) {
             playbackPosition = player.getCurrentPosition();
             currentWindow = player.getCurrentWindowIndex();
-//            shouldAutoPlay = player.getPlayWhenReady();
             player.setPlayWhenReady(false);
+            player.stop();
+            player.release();
         }
     }
 
     public void goToForeground() {
         if (player != null) {
-            player.setPlayWhenReady(shouldAutoPlay);
+            player.setPlayWhenReady(true);
             player.seekTo(currentWindow, playbackPosition);
         }
     }
