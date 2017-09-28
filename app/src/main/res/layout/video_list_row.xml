@@ -16,7 +16,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="5dp"
-        android:paddingBottom="10dp"
+        android:paddingBottom="5dp"
         android:textColor="@android:color/white"
         android:textSize="15dp"
         android:textStyle="bold" />
@@ -40,7 +40,6 @@
             android:id="@+id/video_date"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
             android:layout_weight="1"
             android:gravity="start"
             android:textColor="@color/textColorGray"
