@@ -2,11 +2,13 @@ package com.wwe.madina.wweplayer.activities;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 
@@ -35,12 +37,13 @@ public class MainActivity extends AppCompatActivity {
     private List<Video> videosList = new ArrayList<>();
     private RecyclerView recyclerView;
     private VideosAdapter videosAdapter;
+    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+        setupToolbar();
         getVideoList();
     }
 
@@ -70,6 +73,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void populateRecyclerView() {
+        recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         videosAdapter = new VideosAdapter(videosList);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(layoutManager);
@@ -79,7 +83,13 @@ public class MainActivity extends AppCompatActivity {
         Log.d(TAG, "Number of videos received: " + videosList.size());
     }
 
-//    @Override
+    private void setupToolbar() {
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+    }
+
+    //    @Override
 //    public void onResume() {
 //        super.onResume();
 //        exoPlayerVideoHandler.goToForeground();

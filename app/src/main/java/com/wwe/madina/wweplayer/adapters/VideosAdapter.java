@@ -85,7 +85,6 @@ public class VideosAdapter extends RecyclerView.Adapter<VideosAdapter.VideoViewH
             super(view);
             title = view.findViewById(R.id.description);
             playerView = view.findViewById(R.id.video_view);
-//            thumbnail = view.findViewById(R.id.thumbnail);
         }
     }
 }
