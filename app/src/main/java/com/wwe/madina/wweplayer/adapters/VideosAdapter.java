@@ -19,11 +19,11 @@ import com.wwe.madina.wweplayer.models.Video;
 import com.wwe.madina.wweplayer.utils.ExoPlayerVideoHandler;
 
 import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
+
+import static com.wwe.madina.wweplayer.utils.Constants.FULLSCREEN_VIDEO_URL;
+import static com.wwe.madina.wweplayer.utils.Constants.HTTP_PREFIX;
 
 /**
  * Created by Madina on 27/9/2017.
@@ -31,8 +31,6 @@ import java.util.Locale;
 
 public class VideosAdapter extends RecyclerView.Adapter<VideosAdapter.VideoViewHolder> {
 
-    public static final String HTTP_PREFIX = "http:";
-    public static final String FULLSCREEN_VIDEO_URL = "fullscreenVideoUrl";
     private List<Video> videoList;
     private List<ExoPlayerVideoHandler> videoHandlersList = new ArrayList<>();
     private Context context;
@@ -51,20 +49,20 @@ public class VideosAdapter extends RecyclerView.Adapter<VideosAdapter.VideoViewH
     @Override
     public void onBindViewHolder(final VideoViewHolder holder, int position) {
         final Video video = videoList.get(position);
-        populateTextViews(video, holder);
+        populateViews(video, holder);
     }
 
-    private void populateTextViews(final Video video, VideoViewHolder holder) {
+    private void populateViews(final Video video, VideoViewHolder holder) {
         holder.title.setText(video.getTitle() != null ? video.getTitle() : context.getString(R.string.title_not_available));
         holder.date.setText(video.getDate() != 0 ? DateFormat.getDateInstance(DateFormat.MEDIUM).format(video.getDate() * 1000L) : "");
-        holder.duration.setText(video.getDuration() != 0 ? DateUtils.formatElapsedTime(video.getDuration()).toString() : "");
+        holder.duration.setText(video.getDuration() != 0 ? DateUtils.formatElapsedTime(video.getDuration()) : "");
         holder.container.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (video.getPlaybackUrl() != null) {
-                    Intent intent = new Intent(context, FullScreenVideoActivity.class);
-                    intent.putExtra(FULLSCREEN_VIDEO_URL, video.getPlaybackUrl());
-                    context.startActivity(intent);
+                    Intent fullScreenIntent = new Intent(context, FullScreenVideoActivity.class);
+                    fullScreenIntent.putExtra(FULLSCREEN_VIDEO_URL, video.getPlaybackUrl());
+                    context.startActivity(fullScreenIntent);
                 }
             }
         });

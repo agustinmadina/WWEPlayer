@@ -1,0 +1,135 @@
+package com.wwe.madina.wweplayer.activities;
+
+import android.app.ProgressDialog;
+import android.content.Intent;
+import android.support.design.widget.TextInputLayout;
+import android.support.v7.app.AppCompatActivity;
+
+import android.os.Bundle;
+import android.util.Log;
+import android.view.KeyEvent;
+import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.wwe.madina.wweplayer.R;
+
+import static com.wwe.madina.wweplayer.utils.Constants.LOGIN_PASSWORD;
+import static com.wwe.madina.wweplayer.utils.Constants.LOGIN_USERNAME;
+
+/**
+ * A login screen that offers login via username/password.
+ */
+public class LoginActivity extends AppCompatActivity {
+
+    private static final String TAG = LoginActivity.class.getSimpleName();
+
+    private TextInputLayout usernameTextInput;
+    private TextInputLayout passwordTextInput;
+    private EditText usernameEditText;
+    private EditText passwordEditText;
+    private Button loginButton;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_login);
+        usernameEditText = (EditText) findViewById(R.id.input_username);
+        passwordEditText = (EditText) findViewById(R.id.input_password);
+        usernameTextInput = (TextInputLayout) findViewById(R.id.text_input_username);
+        passwordTextInput = (TextInputLayout) findViewById(R.id.text_input_password);
+        loginButton = (Button) findViewById(R.id.btn_login);
+        setUpListeners();
+    }
+
+    private void setUpListeners() {
+        passwordEditText.setOnEditorActionListener(new EditText.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    loginButton.performClick();
+                    return true;
+                }
+                return false;
+            }
+        });
+
+        loginButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                login();
+            }
+        });
+    }
+
+    private void login() {
+        Log.d(TAG, getString(R.string.login_tag));
+
+        if (!validate()) {
+            Toast.makeText(getBaseContext(), R.string.login_complete_both_fields, Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        loginButton.setEnabled(false);
+
+        final ProgressDialog progressDialog = new ProgressDialog(LoginActivity.this, R.style.Theme_AppCompat_DayNight_Dialog);
+        progressDialog.setIndeterminate(true);
+        progressDialog.setMessage(getString(R.string.login_authenticating));
+        progressDialog.show();
+
+        final String username = usernameEditText.getText().toString();
+        final String password = passwordEditText.getText().toString();
+
+        new android.os.Handler().postDelayed(
+                new Runnable() {
+                    public void run() {
+                        if (LOGIN_USERNAME.equals(username) && LOGIN_PASSWORD.equals(password)) {
+                            onLoginSuccess();
+                        } else {
+                            onLoginFailed();
+                        }
+                        progressDialog.dismiss();
+                    }
+                }, 500);
+    }
+
+    private boolean validate() {
+        boolean valid = true;
+
+        String email = usernameEditText.getText().toString();
+        String password = passwordEditText.getText().toString();
+
+        if (email.isEmpty()) {
+            usernameTextInput.setError(getString(R.string.login_username_required));
+            valid = false;
+        } else {
+            usernameTextInput.setError(null);
+            usernameEditText.getBackground().clearColorFilter();
+        }
+
+        if (password.isEmpty()) {
+            passwordTextInput.setError(getString(R.string.login_password_required));
+            valid = false;
+        } else {
+            passwordTextInput.setError(null);
+            passwordEditText.getBackground().clearColorFilter();
+        }
+
+        return valid;
+    }
+
+    private void onLoginSuccess() {
+        loginButton.setEnabled(true);
+        Intent homeScreenIntent = new Intent(this, HomeScreenActivity.class);
+        startActivity(homeScreenIntent);
+        finish();
+    }
+
+    private void onLoginFailed() {
+        Toast.makeText(getBaseContext(), R.string.login_incorrect_credentials, Toast.LENGTH_SHORT).show();
+        loginButton.setEnabled(true);
+    }
+}

@@ -10,8 +10,8 @@ import com.google.android.exoplayer2.util.Util;
 import com.wwe.madina.wweplayer.R;
 import com.wwe.madina.wweplayer.utils.ExoPlayerVideoHandler;
 
-import static com.wwe.madina.wweplayer.adapters.VideosAdapter.FULLSCREEN_VIDEO_URL;
-import static com.wwe.madina.wweplayer.adapters.VideosAdapter.HTTP_PREFIX;
+import static com.wwe.madina.wweplayer.utils.Constants.FULLSCREEN_VIDEO_URL;
+import static com.wwe.madina.wweplayer.utils.Constants.HTTP_PREFIX;
 
 public class FullScreenVideoActivity extends AppCompatActivity {
 

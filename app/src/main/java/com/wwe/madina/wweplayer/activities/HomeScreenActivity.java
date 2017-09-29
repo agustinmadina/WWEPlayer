@@ -7,6 +7,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.google.android.exoplayer2.util.Util;
 import com.wwe.madina.wweplayer.R;
@@ -30,9 +31,7 @@ public class HomeScreenActivity extends AppCompatActivity {
     private static Retrofit retrofit = null;
 
     private List<Video> videosList = new ArrayList<>();
-    private RecyclerView recyclerView;
     private VideosAdapter videosAdapter;
-    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,18 +42,19 @@ public class HomeScreenActivity extends AppCompatActivity {
     }
 
     private void populateRecyclerView() {
-        recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         videosAdapter = new VideosAdapter(videosList);
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(videosAdapter);
         videosAdapter.notifyDataSetChanged();
-        Log.d(TAG, "Number of videos received: " + videosList.size());
+
+        Log.d(TAG, getString(R.string.home_screen_videos_received_tag) + videosList.size());
     }
 
     private void setupToolbar() {
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
     }
@@ -103,6 +103,7 @@ public class HomeScreenActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<VideoListResponse> call, Throwable t) {
+                Toast.makeText(getBaseContext(), R.string.home_screen_videos_not_loaded, Toast.LENGTH_LONG).show();
                 Log.e(TAG, t.toString());
             }
         });

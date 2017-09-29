@@ -1,9 +1,17 @@
 <resources>
     <string name="app_name">WWE Player</string>
 
-    <string name="title_activity_full_screen_video">FullScreenVideoActivity</string>
-    <string name="dummy_button">Dummy Button</string>
-    <string name="dummy_content">DUMMY\nCONTENT</string>
     <string name="title_not_available">Video title not available</string>
     <string name="video_not_available">Video not available</string>
+    <string name="login_authenticating">Authenticating..</string>
+    <string name="login_tag">Login</string>
+    <string name="home_screen_videos_received_tag">Number of videos received:</string>
+    <string name="login_complete_both_fields">Complete both fields first</string>
+    <string name="login_incorrect_credentials">Incorrect username or password</string>
+    <string name="login_username_required">Username field required</string>
+    <string name="login_password_required">Password field required</string>
+    <string name="login_username">Username</string>
+    <string name="login_password">Password</string>
+    <string name="login_button">Login</string>
+    <string name="home_screen_videos_not_loaded">Couldn\'t load videos, try again later</string>
 </resources>
