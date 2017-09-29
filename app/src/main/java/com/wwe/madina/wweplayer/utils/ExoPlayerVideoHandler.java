@@ -18,6 +18,7 @@ import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.google.android.exoplayer2.upstream.TransferListener;
 import com.google.android.exoplayer2.util.Util;
+import com.wwe.madina.wweplayer.R;
 
 
 /**
@@ -27,14 +28,12 @@ import com.google.android.exoplayer2.util.Util;
 public class ExoPlayerVideoHandler {
 
     private SimpleExoPlayer player;
-//    private long playbackPosition;
-//    private int currentWindow;
 
     public ExoPlayerVideoHandler(Context context, Uri uri, SimpleExoPlayerView playerView) {
         if (context != null && uri != null && playerView != null) {
             playerView.requestFocus();
             BandwidthMeter bandwidthMeter = new DefaultBandwidthMeter();
-            DataSource.Factory mediaDataSourceFactory = new DefaultDataSourceFactory(context, Util.getUserAgent(context, "mediaPlayerSample"), (TransferListener<? super DataSource>) bandwidthMeter);
+            DataSource.Factory mediaDataSourceFactory = new DefaultDataSourceFactory(context, Util.getUserAgent(context, context.getString(R.string.app_name)), (TransferListener<? super DataSource>) bandwidthMeter);
             TrackSelection.Factory videoTrackSelectionFactory = new AdaptiveTrackSelection.Factory(bandwidthMeter);
             DefaultTrackSelector trackSelector = new DefaultTrackSelector(videoTrackSelectionFactory);
             player = ExoPlayerFactory.newSimpleInstance(context, trackSelector);
@@ -52,17 +51,8 @@ public class ExoPlayerVideoHandler {
 
     public void goToBackground() {
         if (player != null) {
-//            playbackPosition = player.getCurrentPosition();
-//            currentWindow = player.getCurrentWindowIndex();
             player.stop();
             player.release();
         }
     }
-
-//    public void goToForeground() {
-//        if (player != null) {
-//            player.setPlayWhenReady(true);
-//            player.seekTo(currentWindow, playbackPosition);
-//        }
-//    }
 }

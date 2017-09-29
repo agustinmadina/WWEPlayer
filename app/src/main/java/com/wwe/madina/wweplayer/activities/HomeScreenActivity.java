@@ -16,7 +16,6 @@ import com.wwe.madina.wweplayer.models.Video;
 import com.wwe.madina.wweplayer.network.RetrofitHandler;
 import com.wwe.madina.wweplayer.network.RetrofitHelper;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class HomeScreenActivity extends AppCompatActivity implements RetrofitHandler{
