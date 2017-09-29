@@ -79,7 +79,7 @@ public class HomeScreenActivity extends AppCompatActivity {
     protected void onStop() {
         super.onStop();
         if (Util.SDK_INT > 23) {
-            videosAdapter.notifyDataSetChanged();
+            videosAdapter.releasePlayers();
         }
     }
 
