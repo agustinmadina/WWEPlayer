@@ -52,11 +52,70 @@ public class VideosAdapter extends RecyclerView.Adapter<VideosAdapter.VideoViewH
         populateViews(video, holder);
     }
 
-    private void populateViews(final Video video, VideoViewHolder holder) {
+    private void populateViews(final Video video, final VideoViewHolder holder) {
         holder.title.setText(video.getTitle() != null ? video.getTitle() : context.getString(R.string.title_not_available));
         holder.date.setText(video.getDate() != 0 ? DateFormat.getDateInstance(DateFormat.MEDIUM).format(video.getDate() * 1000L) : "");
         holder.duration.setText(video.getDuration() != 0 ? DateUtils.formatElapsedTime(video.getDuration()) : "");
-        holder.container.setOnClickListener(new View.OnClickListener() {
+        setUpLikeDislikeButtonsState(holder, video);
+        holder.thumbUpButton.setOnClickListener(thumbUpListener(holder, video));
+        holder.thumbDownButton.setOnClickListener(thumbDownListener(holder, video));
+        holder.container.setOnClickListener(fullScreenVideoListener(video));
+    }
+
+    private void setUpLikeDislikeButtonsState(VideoViewHolder holder, Video video) {
+        if (video.isLikedVideo()) {
+            holder.thumbUpButton.setImageResource(R.drawable.ic_thumb_up_pressed);
+        } else {
+            holder.thumbUpButton.setImageResource(R.drawable.ic_thumb_up);
+        }
+
+        if (video.isDislikedVideo()) {
+            holder.thumbDownButton.setImageResource(R.drawable.ic_thumb_down_pressed);
+        } else {
+            holder.thumbDownButton.setImageResource(R.drawable.ic_thumb_down);
+        }
+    }
+
+    private View.OnClickListener thumbUpListener(final VideoViewHolder holder, final Video video) {
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!video.isLikedVideo()) {
+                    holder.thumbUpButton.setImageResource(R.drawable.ic_thumb_up_pressed);
+                    video.setLikedVideo(true);
+                    if (video.isDislikedVideo()) {
+                        holder.thumbDownButton.setImageResource(R.drawable.ic_thumb_down);
+                        video.setDislikedVideo(false);
+                    }
+                } else {
+                    holder.thumbUpButton.setImageResource(R.drawable.ic_thumb_up);
+                    video.setLikedVideo(false);
+                }
+            }
+        };
+    }
+
+    private View.OnClickListener thumbDownListener(final VideoViewHolder holder, final Video video) {
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!video.isDislikedVideo()) {
+                    holder.thumbDownButton.setImageResource(R.drawable.ic_thumb_down_pressed);
+                    video.setDislikedVideo(true);
+                    if (video.isLikedVideo()) {
+                        holder.thumbUpButton.setImageResource(R.drawable.ic_thumb_up);
+                        video.setLikedVideo(false);
+                    }
+                } else {
+                    holder.thumbDownButton.setImageResource(R.drawable.ic_thumb_down);
+                    video.setDislikedVideo(false);
+                }
+            }
+        };
+    }
+
+    private View.OnClickListener fullScreenVideoListener(final Video video) {
+        return new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (video.getPlaybackUrl() != null) {
@@ -65,7 +124,7 @@ public class VideosAdapter extends RecyclerView.Adapter<VideosAdapter.VideoViewH
                     context.startActivity(fullScreenIntent);
                 }
             }
-        });
+        };
     }
 
     @Override
@@ -111,6 +170,8 @@ public class VideosAdapter extends RecyclerView.Adapter<VideosAdapter.VideoViewH
         private TextView duration;
         private TextView date;
         private SimpleExoPlayerView playerView;
+        private ImageView thumbUpButton;
+        private ImageView thumbDownButton;
 
         public VideoViewHolder(View view) {
             super(view);
@@ -119,6 +180,8 @@ public class VideosAdapter extends RecyclerView.Adapter<VideosAdapter.VideoViewH
             container = view.findViewById(R.id.viewholder_container);
             date = view.findViewById(R.id.video_date);
             duration = view.findViewById(R.id.video_duration);
+            thumbUpButton = view.findViewById(R.id.thumb_up);
+            thumbDownButton = view.findViewById(R.id.thumb_down);
         }
     }
 }

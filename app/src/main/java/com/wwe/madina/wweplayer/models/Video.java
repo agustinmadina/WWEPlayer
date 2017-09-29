@@ -54,6 +54,8 @@ public class Video {
     @SerializedName("tags")
     @Expose
     private List<Tag> tags = null;
+    private boolean likedVideo = false;
+    private boolean dislikedVideo = false;
 
     public int getId() {
         return id;
@@ -183,4 +185,19 @@ public class Video {
         this.tags = tags;
     }
 
+    public boolean isLikedVideo() {
+        return likedVideo;
+    }
+
+    public void setLikedVideo(boolean likedVideo) {
+        this.likedVideo = likedVideo;
+    }
+
+    public boolean isDislikedVideo() {
+        return dislikedVideo;
+    }
+
+    public void setDislikedVideo(boolean dislikedVideo) {
+        this.dislikedVideo = dislikedVideo;
+    }
 }
