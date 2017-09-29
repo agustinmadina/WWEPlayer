@@ -7,15 +7,13 @@
     android:background="?android:attr/selectableItemBackground"
     android:orientation="vertical"
     android:paddingBottom="10dp"
-    android:paddingLeft="26dp"
-    android:paddingRight="26dp"
     android:paddingTop="10dp">
 
     <TextView
         android:id="@+id/video_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="5dp"
+        android:layout_marginStart="7dp"
         android:paddingBottom="5dp"
         android:textColor="@android:color/white"
         android:textSize="15dp"
@@ -24,9 +22,9 @@
     <com.google.android.exoplayer2.ui.SimpleExoPlayerView
         android:id="@+id/video_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:minHeight="180dp"
-        app:resize_mode="fixed_height"
+        android:layout_height="match_parent"
+        android:minHeight="200dp"
+        app:resize_mode="fill"
         app:surface_type="texture_view"
         app:use_controller="false" />
 
@@ -42,6 +40,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="start"
+            android:layout_marginStart="7dp"
             android:textColor="@color/textColorGray"
             android:textSize="14dp"
             android:textStyle="bold" />
