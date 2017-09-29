@@ -27,8 +27,8 @@ import com.google.android.exoplayer2.util.Util;
 public class ExoPlayerVideoHandler {
 
     private SimpleExoPlayer player;
-    private long playbackPosition;
-    private int currentWindow;
+//    private long playbackPosition;
+//    private int currentWindow;
 
     public ExoPlayerVideoHandler(Context context, Uri uri, SimpleExoPlayerView playerView) {
         if (context != null && uri != null && playerView != null) {
@@ -49,19 +49,20 @@ public class ExoPlayerVideoHandler {
     public void setVolumeOn(){
         player.setVolume(100f);
     }
+
     public void goToBackground() {
         if (player != null) {
-            playbackPosition = player.getCurrentPosition();
-            currentWindow = player.getCurrentWindowIndex();
+//            playbackPosition = player.getCurrentPosition();
+//            currentWindow = player.getCurrentWindowIndex();
             player.stop();
             player.release();
         }
     }
 
-    public void goToForeground() {
-        if (player != null) {
-            player.setPlayWhenReady(true);
-            player.seekTo(currentWindow, playbackPosition);
-        }
-    }
+//    public void goToForeground() {
+//        if (player != null) {
+//            player.setPlayWhenReady(true);
+//            player.seekTo(currentWindow, playbackPosition);
+//        }
+//    }
 }

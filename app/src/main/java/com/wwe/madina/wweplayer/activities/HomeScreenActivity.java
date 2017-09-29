@@ -67,7 +67,7 @@ public class HomeScreenActivity extends AppCompatActivity implements RetrofitHan
     @Override
     public void onPause() {
         super.onPause();
-        if (Util.SDK_INT <= 23) {
+        if (videosAdapter != null && Util.SDK_INT <= 23) {
             videosAdapter.releasePlayers();
         }
     }
@@ -75,7 +75,7 @@ public class HomeScreenActivity extends AppCompatActivity implements RetrofitHan
     @Override
     protected void onStop() {
         super.onStop();
-        if (Util.SDK_INT > 23) {
+        if (videosAdapter != null && Util.SDK_INT > 23) {
             videosAdapter.releasePlayers();
         }
     }

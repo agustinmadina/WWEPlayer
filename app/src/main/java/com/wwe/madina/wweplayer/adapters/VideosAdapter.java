@@ -92,8 +92,7 @@ public class VideosAdapter extends RecyclerView.Adapter<VideosAdapter.VideoViewH
 
     @Override
     public void onViewDetachedFromWindow(VideoViewHolder holder) {
-        Video video = videoList.get(holder.getAdapterPosition());
-        if (video.getPlaybackUrl() != null) {
+        if (holder.playerView.getPlayer() != null) {
             holder.playerView.getPlayer().stop();
             holder.playerView.getPlayer().release();
         }
@@ -108,7 +107,6 @@ public class VideosAdapter extends RecyclerView.Adapter<VideosAdapter.VideoViewH
 
     public class VideoViewHolder extends RecyclerView.ViewHolder {
         private LinearLayout container;
-        private ImageView thumbnail;
         private TextView title;
         private TextView duration;
         private TextView date;
