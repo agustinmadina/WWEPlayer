@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 import com.google.android.exoplayer2.ui.SimpleExoPlayerView;
 import com.google.android.exoplayer2.util.Util;
@@ -27,7 +28,7 @@ public class FullScreenVideoActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_full_screen_video);
-        Button dockButton = (Button) findViewById(R.id.dock_button);
+        ImageButton dockButton = (ImageButton) findViewById(R.id.dock_button);
         playerView = (SimpleExoPlayerView) findViewById(R.id.fullscreen_video_view);
         playerView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE
                 | View.SYSTEM_UI_FLAG_FULLSCREEN
