@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.google.android.exoplayer2.ui.SimpleExoPlayerView;
 import com.wwe.madina.wweplayer.R;
 import com.wwe.madina.wweplayer.activities.FullScreenVideoActivity;
+import com.wwe.madina.wweplayer.activities.HomeScreenActivity;
 import com.wwe.madina.wweplayer.models.Video;
 import com.wwe.madina.wweplayer.utils.ExoPlayerVideoHandler;
 
@@ -22,6 +23,7 @@ import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.wwe.madina.wweplayer.utils.Constants.DOCKED_VIDEO_RESULT;
 import static com.wwe.madina.wweplayer.utils.Constants.FULLSCREEN_VIDEO_URL;
 import static com.wwe.madina.wweplayer.utils.Constants.HTTP_PREFIX;
 
@@ -120,8 +122,9 @@ public class VideosAdapter extends RecyclerView.Adapter<VideosAdapter.VideoViewH
             public void onClick(View view) {
                 if (video.getPlaybackUrl() != null) {
                     Intent fullScreenIntent = new Intent(context, FullScreenVideoActivity.class);
-                    fullScreenIntent.putExtra(FULLSCREEN_VIDEO_URL, video.getPlaybackUrl());
-                    context.startActivity(fullScreenIntent);
+                    String videoUrl = HTTP_PREFIX + video.getPlaybackUrl();
+                    fullScreenIntent.putExtra(FULLSCREEN_VIDEO_URL, videoUrl);
+                    ((HomeScreenActivity) context).startActivityForResult(fullScreenIntent, DOCKED_VIDEO_RESULT);
                 }
             }
         };

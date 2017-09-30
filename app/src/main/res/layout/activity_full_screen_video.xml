@@ -1,10 +1,21 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/black_overlay"
     tools:context="com.wwe.madina.wweplayer.activities.FullScreenVideoActivity">
+
+    <Button
+        android:id="@+id/dock_button"
+        android:layout_width="60dp"
+        android:layout_height="30dp"
+        android:layout_gravity="end"
+        android:layout_marginEnd="45dp"
+        android:layout_marginTop="30dp"
+        android:background="@color/colorAccentTransparent"
+        android:text="@string/full_screen_dock" />
+
     <com.google.android.exoplayer2.ui.SimpleExoPlayerView
         android:id="@+id/fullscreen_video_view"
         android:layout_width="match_parent"
