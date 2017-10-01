@@ -110,7 +110,7 @@ public class LoginActivity extends AppCompatActivity {
      *
      * @return whether both fields are filled or not.
      */
-    private boolean bothRequiredFieldsAreCompleted() {
+    public boolean bothRequiredFieldsAreCompleted() {
         boolean valid = true;
 
         String username = usernameEditText.getText().toString();

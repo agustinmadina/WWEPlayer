@@ -86,7 +86,7 @@ public class VideosAdapter extends RecyclerView.Adapter<VideosAdapter.VideoViewH
     /**
      * Listener that checks if video was previously liked or disliked in order to change icons and update state.
      */
-    private View.OnClickListener thumbUpListener(final VideoViewHolder holder, final Video video) {
+    public View.OnClickListener thumbUpListener(final VideoViewHolder holder, final Video video) {
         return new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -108,7 +108,7 @@ public class VideosAdapter extends RecyclerView.Adapter<VideosAdapter.VideoViewH
     /**
      * Listener that checks if video was previously liked or disliked in order to change icons and update state.
      */
-    private View.OnClickListener thumbDownListener(final VideoViewHolder holder, final Video video) {
+    public View.OnClickListener thumbDownListener(final VideoViewHolder holder, final Video video) {
         return new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -190,7 +190,7 @@ public class VideosAdapter extends RecyclerView.Adapter<VideosAdapter.VideoViewH
         }
     }
 
-    public class VideoViewHolder extends RecyclerView.ViewHolder {
+    public static class VideoViewHolder extends RecyclerView.ViewHolder {
         private LinearLayout container;
         private TextView title;
         private TextView duration;
@@ -208,6 +208,14 @@ public class VideosAdapter extends RecyclerView.Adapter<VideosAdapter.VideoViewH
             duration = view.findViewById(R.id.video_duration);
             thumbUpButton = view.findViewById(R.id.thumb_up);
             thumbDownButton = view.findViewById(R.id.thumb_down);
+        }
+
+        public ImageView getThumbUpButton() {
+            return thumbUpButton;
+        }
+
+        public ImageView getThumbDownButton() {
+            return thumbDownButton;
         }
     }
 }
