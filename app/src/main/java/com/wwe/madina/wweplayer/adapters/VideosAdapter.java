@@ -28,6 +28,8 @@ import static com.wwe.madina.wweplayer.utils.Constants.FULLSCREEN_VIDEO_URL;
 import static com.wwe.madina.wweplayer.utils.Constants.HTTP_PREFIX;
 
 /**
+ * Adapter used for displaying videos viewholder, with logic to release player when view is not seen anymore in order to free memory from the device
+ * and avoid performance problems.
  * Created by Madina on 27/9/2017.
  */
 
@@ -64,6 +66,9 @@ public class VideosAdapter extends RecyclerView.Adapter<VideosAdapter.VideoViewH
         holder.container.setOnClickListener(fullScreenVideoListener(video));
     }
 
+    /**
+     * Restores previous state of Like and Dislike buttons
+     */
     private void setUpLikeDislikeButtonsState(VideoViewHolder holder, Video video) {
         if (video.isLikedVideo()) {
             holder.thumbUpButton.setImageResource(R.drawable.ic_thumb_up_pressed);
@@ -78,6 +83,9 @@ public class VideosAdapter extends RecyclerView.Adapter<VideosAdapter.VideoViewH
         }
     }
 
+    /**
+     * Listener that checks if video was previously liked or disliked in order to change icons and update state.
+     */
     private View.OnClickListener thumbUpListener(final VideoViewHolder holder, final Video video) {
         return new View.OnClickListener() {
             @Override
@@ -97,6 +105,9 @@ public class VideosAdapter extends RecyclerView.Adapter<VideosAdapter.VideoViewH
         };
     }
 
+    /**
+     * Listener that checks if video was previously liked or disliked in order to change icons and update state.
+     */
     private View.OnClickListener thumbDownListener(final VideoViewHolder holder, final Video video) {
         return new View.OnClickListener() {
             @Override
@@ -116,6 +127,9 @@ public class VideosAdapter extends RecyclerView.Adapter<VideosAdapter.VideoViewH
         };
     }
 
+    /**
+     * Listener that triggers a new a activity with selected video in full screen.
+     */
     private View.OnClickListener fullScreenVideoListener(final Video video) {
         return new View.OnClickListener() {
             @Override
@@ -141,6 +155,9 @@ public class VideosAdapter extends RecyclerView.Adapter<VideosAdapter.VideoViewH
         attachVideoToViewHolder(holder);
     }
 
+    /**
+     * When viewHolder is seen, sets up exoPlayer with corresponding video.
+     */
     private void attachVideoToViewHolder(VideoViewHolder holder) {
         Video video = videoList.get(holder.getAdapterPosition());
         if (video.getPlaybackUrl() != null) {
@@ -152,6 +169,9 @@ public class VideosAdapter extends RecyclerView.Adapter<VideosAdapter.VideoViewH
         }
     }
 
+    /**
+     * When viewHolder is not seen anymore, releases exoPlayer in order to save device memory and avoid performance problems.
+     */
     @Override
     public void onViewDetachedFromWindow(VideoViewHolder holder) {
         if (holder.playerView.getPlayer() != null) {
@@ -161,6 +181,9 @@ public class VideosAdapter extends RecyclerView.Adapter<VideosAdapter.VideoViewH
         super.onViewDetachedFromWindow(holder);
     }
 
+    /**
+     * Releases all video instances to save device memory, this method is called when app is going to background.
+     */
     public void releasePlayers() {
         for (ExoPlayerVideoHandler exoPlayerVideoHandler : videoHandlersList) {
             exoPlayerVideoHandler.goToBackground();

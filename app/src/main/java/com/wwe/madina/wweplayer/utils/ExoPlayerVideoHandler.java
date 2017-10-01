@@ -22,7 +22,9 @@ import com.wwe.madina.wweplayer.R;
 
 
 /**
- * Created by Madina on 27/9/2017.
+ * Helper class that created instances of ExoPlayer and attaches them to SimpleExoPlayer View that was passed as parameter.
+ *
+ * @author Madina on 27/9/2017.
  */
 
 public class ExoPlayerVideoHandler {
@@ -45,10 +47,16 @@ public class ExoPlayerVideoHandler {
         }
     }
 
-    public void setVolumeOn(){
+    /**
+     * Set volumes on for Full Screen and Docked Video modes, since videos are muted by default
+     */
+    public void setVolumeOn() {
         player.setVolume(100f);
     }
 
+    /**
+     * Releases exoPlayer in order to save device memory and avoid performance problems.
+     */
     public void goToBackground() {
         if (player != null) {
             player.stop();

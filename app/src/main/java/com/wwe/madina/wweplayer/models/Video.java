@@ -4,21 +4,19 @@ import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+/**
+ * @author Madina on 25/9/2017.
+ */
 public class Video {
 
-    @SerializedName("id")
     @Expose
     private int id;
-    @SerializedName("title")
     @Expose
     private String title;
-    @SerializedName("type")
     @Expose
     private String type;
-    @SerializedName("date")
     @Expose
     private int date;
-    @SerializedName("duration")
     @Expose
     private int duration;
     @SerializedName("vms_id")
@@ -33,25 +31,19 @@ public class Video {
     @SerializedName("playback_url")
     @Expose
     private String playbackUrl;
-    @SerializedName("thumb")
     @Expose
     private String thumb;
-    @SerializedName("formats")
     @Expose
     private Formats formats;
-    @SerializedName("body")
     @Expose
     private String body;
-    @SerializedName("icon")
     @Expose
     private int icon;
     @SerializedName("network_content")
     @Expose
     private int networkContent;
-    @SerializedName("url")
     @Expose
     private String url;
-    @SerializedName("tags")
     @Expose
     private List<Tag> tags = null;
     private boolean likedVideo = false;

@@ -21,7 +21,9 @@ import static com.wwe.madina.wweplayer.utils.Constants.LOGIN_PASSWORD;
 import static com.wwe.madina.wweplayer.utils.Constants.LOGIN_USERNAME;
 
 /**
- * A login screen that offers login via username/password.
+ * A Login screen that offers login via username/password.
+ *
+ * @author Madina
  */
 public class LoginActivity extends AppCompatActivity {
 
@@ -46,17 +48,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void setUpListeners() {
-        passwordEditText.setOnEditorActionListener(new EditText.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    loginButton.performClick();
-                    return true;
-                }
-                return false;
-            }
-        });
-
+        passwordEditText.setOnEditorActionListener(passwordEnterKeyListener());
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -65,10 +57,27 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Listener that checks if enter key was pressed while editing password field, in order to click login button instantly
+     */
+    EditText.OnEditorActionListener passwordEnterKeyListener() {
+        return new EditText.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    loginButton.performClick();
+                    return true;
+                }
+                return false;
+            }
+        };
+    }
+
+
     private void login() {
         Log.d(TAG, getString(R.string.login_tag));
 
-        if (!validate()) {
+        if (!bothRequiredFieldsAreCompleted()) {
             Toast.makeText(getBaseContext(), R.string.login_complete_both_fields, Toast.LENGTH_SHORT).show();
             return;
         }
@@ -96,13 +105,18 @@ public class LoginActivity extends AppCompatActivity {
                 }, 500);
     }
 
-    private boolean validate() {
+    /**
+     * Checks if username and password TextFields are filled, and sets corresponding error in TextInputLayout.
+     *
+     * @return whether both fields are filled or not.
+     */
+    private boolean bothRequiredFieldsAreCompleted() {
         boolean valid = true;
 
-        String email = usernameEditText.getText().toString();
+        String username = usernameEditText.getText().toString();
         String password = passwordEditText.getText().toString();
 
-        if (email.isEmpty()) {
+        if (username.isEmpty()) {
             usernameTextInput.setError(getString(R.string.login_username_required));
             valid = false;
         } else {

@@ -15,16 +15,16 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import static com.google.android.exoplayer2.ExoPlayerLibraryInfo.TAG;
 
 /**
- * Created by Madina on 29/9/2017.
+ * @author Madina on 29/9/2017.
  */
-
 public final class RetrofitHelper {
 
     private static Retrofit retrofit = null;
 
-    private RetrofitHelper() {
-    }
-
+    /**
+     * Creates a Retrofit instance and calls service in order to get videos, if succeed it sends videoList to HomeScreen in order
+     * to set it to the Adapter.
+     */
     public static void getVideos(final RetrofitHandler handler) {
         if (retrofit == null) {
             retrofit = new Retrofit.Builder()
