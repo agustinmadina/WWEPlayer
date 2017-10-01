@@ -34,6 +34,11 @@ import static com.wwe.madina.wweplayer.utils.Constants.DOCKED_VIDEO_RESULT;
 import static com.wwe.madina.wweplayer.utils.Constants.DOCKED_VIDEO_URL;
 import static com.wwe.madina.wweplayer.utils.Constants.FULLSCREEN_VIDEO_URL;
 
+/**
+ * Main activity that displays videos from service response in recycler view, also contains hidden view for displaying docked videos.
+ *
+ * @author Madina
+ */
 public class HomeScreenActivity extends AppCompatActivity implements RetrofitHandler {
 
     private static final String TAG = HomeScreenActivity.class.getSimpleName();
@@ -53,6 +58,9 @@ public class HomeScreenActivity extends AppCompatActivity implements RetrofitHan
         setupToolbar();
     }
 
+    /**
+     * Method called after service response, creates Adapter with the videoList and sets it to RecyclerView
+     */
     @Override
     public void setVideos(List<Video> videos) {
         videosAdapter = new VideosAdapter(videos);
@@ -77,6 +85,10 @@ public class HomeScreenActivity extends AppCompatActivity implements RetrofitHan
         getSupportActionBar().setDisplayShowTitleEnabled(false);
     }
 
+    /**
+     * When coming back from FullScreenActivity, if docked mode was previously selected, sets up a new instance of ExoPlayerVideoHandler,
+     * attaches it to hidden docked view and makes it visible.
+     */
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -91,6 +103,9 @@ public class HomeScreenActivity extends AppCompatActivity implements RetrofitHan
         }
     }
 
+    /**
+     * Listener that calls FullScreenActivity if docked video was clicked.
+     */
     private View.OnClickListener dockedVideoToFullScreenListener(final Context context, final String videoUrl) {
         return new View.OnClickListener() {
             @Override
@@ -102,6 +117,9 @@ public class HomeScreenActivity extends AppCompatActivity implements RetrofitHan
         };
     }
 
+    /**
+     * Listener that closes docked video..
+     */
     private View.OnClickListener closeDockedVideoListener() {
         return new View.OnClickListener() {
             @Override
@@ -121,6 +139,9 @@ public class HomeScreenActivity extends AppCompatActivity implements RetrofitHan
         }
     }
 
+    /**
+     * When going to background, releases exoPlayer instances in order to save device memory and avoid performance problems.
+     */
     @Override
     public void onPause() {
         super.onPause();
@@ -134,6 +155,9 @@ public class HomeScreenActivity extends AppCompatActivity implements RetrofitHan
         }
     }
 
+    /**
+     * When going to background, releases exoPlayer instances in order to save device memory and avoid performance problems.
+     */
     @Override
     protected void onStop() {
         super.onStop();

@@ -18,6 +18,11 @@ import static com.wwe.madina.wweplayer.utils.Constants.DOCKED_VIDEO_URL;
 import static com.wwe.madina.wweplayer.utils.Constants.FULLSCREEN_VIDEO_URL;
 import static com.wwe.madina.wweplayer.utils.Constants.HTTP_PREFIX;
 
+/**
+ * Activity for displaying previously selected video in full screen mode
+ *
+ * @author Madina on 27/9/2017.
+ */
 public class FullScreenVideoActivity extends AppCompatActivity {
 
     SimpleExoPlayerView playerView;
@@ -44,6 +49,9 @@ public class FullScreenVideoActivity extends AppCompatActivity {
         exoPlayerVideoHandler.setVolumeOn();
     }
 
+    /**
+     * Listener that returns videoUrl to HomeScreenActivity in order to play video in docked mode.
+     */
     private View.OnClickListener dockVideoListener(final String videoUrl) {
         return new View.OnClickListener() {
             @Override

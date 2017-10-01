@@ -3,6 +3,9 @@ package com.wwe.madina.wweplayer.models;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+/**
+ * @author Madina on 25/9/2017.
+ */
 public class Formats {
 
     @SerializedName("flv_rtmp_rtmpe")

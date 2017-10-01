@@ -5,9 +5,11 @@ import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+/**
+ * @author Madina on 25/9/2017.
+ */
 public class VideoListResponse {
 
-    @SerializedName("videos")
     @Expose
     private List<Video> videos = null;
 
@@ -15,7 +17,4 @@ public class VideoListResponse {
         return videos;
     }
 
-    public void setVideos(List<Video> videos) {
-        this.videos = videos;
-    }
 }
