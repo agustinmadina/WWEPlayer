@@ -33,6 +33,7 @@ import static android.view.View.VISIBLE;
 import static com.wwe.madina.wweplayer.utils.Constants.DOCKED_VIDEO_RESULT;
 import static com.wwe.madina.wweplayer.utils.Constants.DOCKED_VIDEO_URL;
 import static com.wwe.madina.wweplayer.utils.Constants.FULLSCREEN_VIDEO_URL;
+import static com.wwe.madina.wweplayer.utils.Constants.VIDEO_CURRENT_POSITION;
 
 /**
  * Main activity that displays videos from service response in recycler view, also contains hidden view for displaying docked videos.
@@ -87,7 +88,7 @@ public class HomeScreenActivity extends AppCompatActivity implements RetrofitHan
 
     /**
      * When coming back from FullScreenActivity, if docked mode was previously selected, sets up a new instance of ExoPlayerVideoHandler,
-     * attaches it to hidden docked view and makes it visible.
+     * attaches it to hidden docked view, makes it visible and seeks to current position of the video.
      */
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -95,9 +96,11 @@ public class HomeScreenActivity extends AppCompatActivity implements RetrofitHan
         if (requestCode == DOCKED_VIDEO_RESULT) {
             if (resultCode == Activity.RESULT_OK) {
                 String videoUrl = data.getStringExtra(DOCKED_VIDEO_URL);
+                long currentPosition = data.getLongExtra(VIDEO_CURRENT_POSITION, 0);
                 ExoPlayerVideoHandler exoPlayerVideoHandler = new ExoPlayerVideoHandler(this, Uri.parse(videoUrl), dockedPlayerView);
                 exoPlayerVideoHandler.setVolumeOn();
-                dockedVideoContainer.setOnClickListener(dockedVideoToFullScreenListener(this, videoUrl));
+                exoPlayerVideoHandler.seekTo(currentPosition);
+                dockedVideoContainer.setOnClickListener(dockedVideoToFullScreenListener(this, videoUrl, exoPlayerVideoHandler));
                 dockedVideoContainer.setVisibility(VISIBLE);
             }
         }
@@ -106,12 +109,13 @@ public class HomeScreenActivity extends AppCompatActivity implements RetrofitHan
     /**
      * Listener that calls FullScreenActivity if docked video was clicked.
      */
-    private View.OnClickListener dockedVideoToFullScreenListener(final Context context, final String videoUrl) {
+    private View.OnClickListener dockedVideoToFullScreenListener(final Context context, final String videoUrl, final ExoPlayerVideoHandler playerHandler) {
         return new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent fullScreenIntent = new Intent(context, FullScreenVideoActivity.class);
                 fullScreenIntent.putExtra(FULLSCREEN_VIDEO_URL, videoUrl);
+                fullScreenIntent.putExtra(VIDEO_CURRENT_POSITION, playerHandler.getCurentPosition());
                 ((HomeScreenActivity) context).startActivityForResult(fullScreenIntent, DOCKED_VIDEO_RESULT);
             }
         };

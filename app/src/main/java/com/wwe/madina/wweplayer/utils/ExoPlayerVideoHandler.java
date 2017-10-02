@@ -2,7 +2,6 @@ package com.wwe.madina.wweplayer.utils;
 
 import android.content.Context;
 import android.net.Uri;
-import android.view.SurfaceView;
 
 import com.google.android.exoplayer2.ExoPlayerFactory;
 import com.google.android.exoplayer2.SimpleExoPlayer;
@@ -52,6 +51,20 @@ public class ExoPlayerVideoHandler {
      */
     public void setVolumeOn() {
         player.setVolume(100f);
+    }
+
+    /**
+     * Seeks video to where it was left when going to Background or Dock feature selected
+     */
+    public void seekTo(long currentPosition) {
+        player.seekTo(currentPosition);
+    }
+
+    /**
+     * @return video current position
+     */
+    public long getCurentPosition() {
+        return player.getCurrentPosition();
     }
 
     /**

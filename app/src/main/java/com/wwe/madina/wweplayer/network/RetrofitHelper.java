@@ -3,8 +3,6 @@ package com.wwe.madina.wweplayer.network;
 import android.util.Log;
 
 import com.wwe.madina.wweplayer.models.VideoListResponse;
-import com.wwe.madina.wweplayer.network.RetrofitHandler;
-import com.wwe.madina.wweplayer.network.VideoApiService;
 
 import retrofit2.Call;
 import retrofit2.Callback;
