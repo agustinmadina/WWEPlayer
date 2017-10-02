@@ -128,9 +128,11 @@ public class HomeScreenActivity extends AppCompatActivity implements RetrofitHan
         return new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                dockedPlayerView.getPlayer().stop();
-                dockedPlayerView.getPlayer().release();
-                dockedVideoContainer.setVisibility(GONE);
+                if (dockedPlayerView.getPlayer() != null) {
+                    dockedPlayerView.getPlayer().stop();
+                    dockedPlayerView.getPlayer().release();
+                    dockedVideoContainer.setVisibility(GONE);
+                }
             }
         };
     }
