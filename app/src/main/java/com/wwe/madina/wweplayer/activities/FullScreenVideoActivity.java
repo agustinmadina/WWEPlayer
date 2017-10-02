@@ -6,6 +6,8 @@ import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.WindowManager;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 
 import com.google.android.exoplayer2.ui.SimpleExoPlayerView;
@@ -40,6 +42,7 @@ public class FullScreenVideoActivity extends AppCompatActivity {
                 | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                 | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
                 | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         videoUrl = getIntent().getStringExtra(FULLSCREEN_VIDEO_URL);
         currentPosition = getIntent().getLongExtra(VIDEO_CURRENT_POSITION, 0);
         dockButton.setOnClickListener(dockVideoListener(videoUrl));
